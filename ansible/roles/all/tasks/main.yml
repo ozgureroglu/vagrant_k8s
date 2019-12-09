@@ -1,0 +1,48 @@
+
+---
+# This playbook contains common plays that will be run on all nodes.
+# asagidaki iki task hostname plugin tarafindan yanlis olusturulan /etc/HOSTS
+# girdilerini duzeltmektedir.
+- name: replace /etc/hosts file
+  replace:
+    path: /etc/hosts
+    regexp: '127.0.1.1(.*)'
+    replace: ''
+    backup: yes
+
+
+- name: replace /etc/hosts file
+  replace:
+    path: /etc/hosts
+    regexp: '127.0.0.1(.*)'
+    # asagidaki ansible_hostname ansible tarafindan discover edilir.
+    # ansible_hostname - As discovered by ansible. Ansible ssh's into the
+    #host and gathers some facts. As part of the fact, it also discovers its
+    #hostname which is stored in ansible_hostname
+    replace: '127.0.0.1 {{ansible_hostname}} localhost'
+    backup: yes
+
+# Makinalari Turkiye zaman dilimine ayarla
+- name: set timezone to Europe/Istanbul
+  timezone:
+    # asagidaki timezone bilgisi group vars all icinde tanimlanmistir.
+    name: "{{ timezone }}"
+
+- name: Install ntp
+  apt: name=ntp state=present
+  tags: ntp
+
+- name: Configure ntp file
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  tags: ntp
+  notify: restart ntp
+
+- name: Start the ntp service
+  service: name=ntp state=started enabled=yes
+  tags: ntp
+
+# # asagidaki kisim debian10 ve ubuntu19.04  icin gecerli
+# - name: Ensure iptables tooling does not use the nftables backend (Ubuntu/Debian)
+#   alternatives:
+#    name: iptables
+#    path: /usr/sbin/iptables-legacy

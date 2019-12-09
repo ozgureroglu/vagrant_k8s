@@ -1,0 +1,15 @@
+
+ansible_python_interpreter=/usr/bin/python3
+ansible_connection=ssh
+ansible_user=vagrant
+ansible_ssh_pass=vagrant
+
+# k8s master node : will include
+[master]
+k8s-master-node
+
+# k8s worker nodes
+[worker]
+k8s-worker-node1
+k8s-worker-node2
+k8s-worker-node3

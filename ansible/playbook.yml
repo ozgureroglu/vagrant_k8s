@@ -1,0 +1,25 @@
+---
+  # Tum makinalari paket listelerini update et.
+- name: Tum makinalarin paket listelerini guncelle
+  hosts: all
+  remote_user: root
+  tasks:
+    - name: update machine package cache
+      apt:
+         update_cache: yes
+
+
+# Tasklar hosts listesi uzerinden yukaridaki gibi girilebilecegi gibi
+# asagidaki gibi role tanimlari uzerinden de yapilabilir.
+- name: apply common configuration to all nodes
+  hosts: all
+  remote_user: root
+  roles:
+    - all
+
+# 
+# - name: configure master node
+#   hosts: master
+#   remote_user: root
+#   roles:
+#     - master
