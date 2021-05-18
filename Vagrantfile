@@ -18,8 +18,7 @@ BOX               = 'debian/stretch64'
 HOSTS = {
   "k8s-master-node" => [NETWORK+"11", RAM, GUI, CPU, BOX,"master"],
   "k8s-worker-node1" => [NETWORK+"12", RAM, GUI, CPU, BOX,"worker"],
-  "k8s-worker-node2" => [NETWORK+"13", RAM, GUI, CPU, BOX,"worker"],
-  "k8s-worker-node3" => [NETWORK+"14", RAM, GUI, CPU, BOX,"worker"],
+  "k8s-worker-node2" => [NETWORK+"13", RAM, GUI, CPU, BOX,"worker"],  
 }
 
 # Hostmanager kurulumu gereklidir.
